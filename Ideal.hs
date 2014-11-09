@@ -30,40 +30,39 @@ create (h:t) = (take h(repeat 0)) ++ (create t)
 coloring = create (createLength forest)
 
 -- funkcija vrne barvo node-a
-get node allStates =
-	let state = last allStates in
+get node state =
 	state !! node
-	
+
 -- funkcija posodbi barvo node-a na color
-update node color allStates =
-	let state = last allStates in
-    take node state ++ [color] ++ drop (node + 1) state
+update node color state =
+	take node state ++ [color] ++ drop (node + 1) state
 
 -- v zacetnem stanju "state" so vsa vozlisca bela
-state = [coloring]
+state = coloring
 
 -- loop_forest se sprehodi skozi gozd
 -- ce je gozd prazen vrne stanje
 -- sicer pa poskusi prebarvati preostanek gozda
-loop_forest forest state = case forest of
-	[] -> state
-	tree : forest1 -> loop_tree tree (loop_forest forest1 state)
+
+drawIdeal state =
+	-- s pomocjo traceShow izrisemo trenutno stanje gozda
+	traceShow state
+	-- vrnemo state
+	state
+
+loop_forest k forest state = case forest of
+	[] -> k state
+	tree : forest1 -> loop_tree (loop_forest k forest1) tree state
 
 -- loop_tree preveri, kaksna je barva prvega naslednjega vozlisca
 -- ce je belo, ga pobarva in nadaljuje z iskanjem nadaljnih resitev
--- sicer - bug: se ne zgodi
-loop_tree (Node rootLabel subforest) state =
+-- ce je crno, nadaljuje iskanje na podrevesu in ga nato prebarva v belo
+loop_tree k (Node rootLabel subforest) state =
 	let i = read rootLabel::Int in
 		if get i state == 0 then
-			loop_forest subforest (state ++ [update i 1 state])
+			loop_forest k subforest (update i 1 (k state))
 		else
-			-- nikoli ne pridemo do sem?
-			loop_forest subforest (state ++ [update i 0 state])
+			k (update i 0 (loop_forest k subforest state))
 
 -- primer zagona programa (v konzoli)
--- *Main> loop_forest forest state
-
--- zeljene resitve za zgornji primer
--- [[0,0,0,0,0],[0,0,1,0,0],[0,0,1,0,1],[0,0,1,1,1],[0,0,1,1,0],[1,0,0,0,0],[1,0,1,0,0],[1,0,1,0,1],[1,0,1,1,1],[1,0,1,1,0],[1,1,0,0,0],[1,1,1,0,0],[1,1,1,0,1],[1,1,1,1,1],[1,1,1,1,0]]
--- trenutne resitve
--- [[0,0,0,0,0],[0,0,1,0,0],[0,0,1,0,1],[0,0,1,1,1],[1,0,1,1,1],[1,1,1,1,1]]
+-- loop_forest drawIdeal forest state
