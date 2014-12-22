@@ -62,7 +62,16 @@ Izkaže se, da je hitrejši algoritem, ki sva ga realizirala na napredni način:
 | razlika            | 0.001573s | 0.043062s |  0.022196s |
 
 Pri manjhnem številu ponovitev (*<10000*) je sicer res hitrejša osnovna izvedba algoritma, kasneje pa ne več.
-Še bolj opazne so razlike na starejših računalnikih.
+
+Primerjava algoritmov na drugem računalniku:
+
+| Število meritev    |       100 |      1000 |      10000 |
+|:------------------ | --------: | --------: | ---------: |
+| osnovni            | 0.288601s | 2.706145s | 27.697389s |
+| napredni           | 0.258961s | 2.692665s | 26.722207s |
+| razlika            | 0.02964s  | 0.01348s  | 0.975182s  |
+
+Glede na meritve na drugem računalniku, je napredni algoritem hitrejši od osnovnega.
 
 ### Benchmarking
 Benchmarking je bil izveden s pomočjo [Criterion.Main](http://hackage.haskell.org/package/criterion-0.5.0.0/docs/Criterion-Main.html).
