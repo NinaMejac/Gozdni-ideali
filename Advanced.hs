@@ -25,12 +25,15 @@ readMyRef :: MyRef s a -> ST s a
 readMyRef (MySTRef x) = readSTRef x
 readMyRef (MyVal x) = return x
 
+modifyMyRef :: MyRef s a -> (a -> a) -> ST s ()
 modifyMyRef (MySTRef x) f = writeSTRef x . f =<< readSTRef x
 
 -- funkcija, ki vrne novo barvanje
+updateRef :: Int -> a -> [a] -> [a]
 updateRef node color coloring =
 	take node coloring ++ [color] ++ drop (node + 1) coloring
-	
+
+loopForestRef :: (Num a, Eq a) => Forest -> ST s [[a]]	
 loopForestRef forest = do
 	allColors <- newMyRef [[0,0,0,0,0]]
 	coloring <- newMyRef [0,0,0,0,0]
@@ -84,18 +87,22 @@ loop_forest_ref forest =
 	runST $ loopForestRef forest
 
 -- pomozna funkcija za izris
+izrisiIdeal :: Show a => [Tree] -> [[a]] -> [String]
 izrisiIdeal forest (x:[]) =
 	drawForest forest x
 izrisiIdeal forest (x:xs) =
 	(drawForest forest x) ++ ["\n\n\n---\n\n\n---"] ++ (izrisiIdeal forest xs)	
 
+drawForest :: Show a => [Tree] -> [a] -> [String]
 drawForest forest state =
 	map f forest
 		where f = drawTree2 state
 
+drawTree :: Show a => Tree -> [a] -> String
 drawTree tree state = unlines (draw tree state)
 drawTree2 state tree = drawTree tree state
-		
+
+draw :: Show a => Tree -> [a] -> [[Char]]			
 draw (Tree x ts0) state = 
   let vozlisce = (state !! x) in
   show vozlisce : drawSubTrees ts0
@@ -107,16 +114,19 @@ draw (Tree x ts0) state =
 
 	shift first other = zipWith (++) (first : repeat other)
 
+advancedForestIdealsA :: Forest -> IO ()
 advancedForestIdealsA forest = do
 	let
 		allStates = loop_forest_ref forest
 	putStrLn $ unlines $ izrisiIdeal forest allStates
 	
+advancedForestIdeals :: IO ()		
 advancedForestIdeals = do
 	gozd <- getLine
 	let
 		forest = read gozd :: Forest
 		allStates = loop_forest_ref forest
 	putStrLn $ unlines $ izrisiIdeal forest allStates
-	
+
+advancedBenchmark :: [Tree] -> [String]		
 advancedBenchmark forest = izrisiIdeal forest (loop_forest_ref forest)
