@@ -1,3 +1,4 @@
+-- | Benchmark is a module for time and space measurements
 module Benchmark where
 
 import ForestIdeals.Tree
@@ -13,8 +14,6 @@ doIt f 0 = return ()
 doIt f n = do
 	f
 	doIt f (n-1)
-
--- benchmarking ...
 
 simpleForest :: Forest
 simpleForest = [Tree 0 [Tree 1 []], Tree 2 [Tree 3 [], Tree 4 []]]
