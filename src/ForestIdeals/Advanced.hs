@@ -5,31 +5,36 @@ import Data.STRef
 import Control.Monad.ST
 import ForestIdeals.Tree
 
--- definicija novega tipa za shranjevanje reference
+-- | New data type MyRef, which is compound of STRef value and pure value.
 data MyRef s a
 	= MySTRef (STRef s a)
 	| MyVal a
 
+-- | A Num instance for MyRef. 
 instance Num a => Num (MyRef s a) where
 	fromInteger = MyVal . fromInteger
 
+-- | Function newMyRef genereates new MyRef value.
 newMyRef :: a -> ST s (MyRef s a)
 newMyRef x = do
 	ref <- newSTRef x
 	return (MySTRef ref)
 
+-- | Function readRef readsa  value of MyRef.
 readMyRef :: MyRef s a -> ST s a
 readMyRef (MySTRef x) = readSTRef x
 readMyRef (MyVal x) = return x
 
+-- | Function modifyMyRef modifyies a value of MyRef.
 modifyMyRef :: MyRef s a -> (a -> a) -> ST s ()
 modifyMyRef (MySTRef x) f = writeSTRef x . f =<< readSTRef x
 
--- funkcija, ki vrne novo barvanje
+-- | Function updateRef generates new coloring.
 updateRef :: Int -> a -> [a] -> [a]
 updateRef node color coloring =
 	take node coloring ++ [color] ++ drop (node + 1) coloring
 
+-- | Function loopForestRef generates all coloring of a given forest.
 loopForestRef :: (Num a, Eq a) => Forest -> ST s [[a]]	
 loopForestRef forest = do
 	allColors <- newMyRef [[0,0,0,0,0]]
@@ -79,26 +84,33 @@ loopForestRef forest = do
 	enum_forest k forest
 	readMyRef allColors
 
+-- | Function loop_forest_ref is an auxiliary function for generating all coloring of a forest.
 loop_forest_ref :: Forest -> [[Int]]
 loop_forest_ref forest = 
 	runST $ loopForestRef forest
 
--- pomozna funkcija za izris
+-- | Function printIdealAdvanced is an auxiliary function for drawing trees.
 printIdealAdvanced :: Show a => [Tree] -> [[a]] -> [String]
 printIdealAdvanced forest (x:[]) =
 	drawForest forest x
 printIdealAdvanced forest (x:xs) =
 	(drawForest forest x) ++ ["\n\n\n---\n\n\n---"] ++ (printIdealAdvanced forest xs)
 
+-- | Function drawForest calls a function for drawing trees for every tree in a forest.
 drawForest :: Show a => [Tree] -> [a] -> [String]
 drawForest forest state =
 	map f forest
 		where f = drawTree2 state
 
+-- | Function drawTree is an auxiliary function for drawing trees.
 drawTree :: Show a => Tree -> [a] -> String
 drawTree tree state = unlines (draw tree state)
+
+-- | Function drawTree is an auxiliary function for drawing trees.
+drawTree2 :: Show a => [a] -> Tree -> String
 drawTree2 state tree = drawTree tree state
 
+-- | Function draw prints a tree. In the output the names of nodes are switched with its color.
 draw :: Show a => Tree -> [a] -> [[Char]]			
 draw (Tree x ts0) state = 
   let vozlisce = (state !! x) in
