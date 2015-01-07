@@ -1,5 +1,7 @@
--- | Module Simple generates all ideals of a forest by collecting them in one list
+-- | With module ForestIdeals.Advanced we can generate all ideals of a given forest
 module ForestIdeals.Simple (createLength, create, loop_forest, drawIdeal, printIdeal) where
+
+-- | Module Simple generates all ideals of a forest by collecting them in one list
 
 import ForestIdeals.Tree
 
@@ -15,7 +17,7 @@ createLength (f:fx) = let
 	treeLength = length (flatten f)
 	in [treeLength] ++ createLength fx
 	
--- | Function create generates the first coloring of a forest. In a coloring list the ith element represents the ith node of a forest.
+-- | Function create generates the first coloring of a forest. In a coloring list the i-th element represents the i-th node of a forest.
 --
 --   In the first coloring are all the nodes white (0).
 create :: [Int] -> [Int]
@@ -39,8 +41,8 @@ drawTree2 state tree = drawTree tree state
 -- | Function draw prints a tree. In the output the names of nodes are switched with its color.
 draw :: Show a => Tree -> [a] -> [[Char]]
 draw (Tree x ts0) state = 
-  let vozlisce = (state !! x) in
-  show vozlisce : drawSubTrees ts0
+  let node = (state !! x) in
+  show node : drawSubTrees ts0
   where drawSubTrees [] = []
 	drawSubTrees [t] =
 		"|" : shift "`- " "   " (draw t state)

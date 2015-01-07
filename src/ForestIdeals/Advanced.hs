@@ -16,18 +16,18 @@ data MyRef s a
 instance Num a => Num (MyRef s a) where
 	fromInteger = MyVal . fromInteger
 
--- | Function newMyRef genereates new MyRef value.
+-- | Function newMyRef generates new MyRef value.
 newMyRef :: a -> ST s (MyRef s a)
 newMyRef x = do
 	ref <- newSTRef x
 	return (MySTRef ref)
 
--- | Function readRef readsa  value of MyRef.
+-- | Function readRef reads a value of MyRef.
 readMyRef :: MyRef s a -> ST s a
 readMyRef (MySTRef x) = readSTRef x
 readMyRef (MyVal x) = return x
 
--- | Function modifyMyRef modifyies a value of MyRef.
+-- | Function modifyMyRef modifiyies a value of MyRef.
 modifyMyRef :: MyRef s a -> (a -> a) -> ST s ()
 modifyMyRef (MySTRef x) f = writeSTRef x . f =<< readSTRef x
 
@@ -43,7 +43,7 @@ loopForestRef forest = do
 	coloring <- newMyRef [0,0,0,0,0]
 	
 	let
-		-- funkcija, ki vrne barvo zelenega vozlisca
+		-- Function get return a color of a node
 		get node = do
 			nodeValue <- newMyRef 0
 			tmpColoring <- readMyRef coloring
@@ -115,8 +115,8 @@ drawTree2 state tree = drawTree tree state
 -- | Function draw prints a tree. In the output the names of nodes are switched with its color.
 draw :: Show a => Tree -> [a] -> [[Char]]			
 draw (Tree x ts0) state = 
-  let vozlisce = (state !! x) in
-  show vozlisce : drawSubTrees ts0
+  let node = (state !! x) in
+  show node : drawSubTrees ts0
   where drawSubTrees [] = []
 	drawSubTrees [t] =
 		"|" : shift "`- " "   " (draw t state)

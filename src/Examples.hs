@@ -4,7 +4,6 @@ import ForestIdeals.Tree
 import ForestIdeals.Advanced
 import ForestIdeals.Simple
 
--- | create forest from article
 forest :: Forest
 forest = [Tree 0 [Tree 1 []], Tree 2 [Tree 3 [], Tree 4 []]]
 

@@ -18,7 +18,7 @@ simpleForestIdeals = do
 		allStates = loop_forest drawIdeal forest state
 	putStrLn $ unlines $ printIdeal forest allStates
 
--- | simpleForestIdeals generates all forest ideals of a given forest
+-- | advancedForestIdeals generates all forest ideals of a given forest
 --
 -- >>> advancedForestIdeals
 -- [Tree 0 [Tree 1 []], Tree 2 [Tree 3 [], Tree 4 []]]
