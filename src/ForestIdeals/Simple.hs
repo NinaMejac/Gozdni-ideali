@@ -21,13 +21,17 @@ create :: [Int] -> [Int]
 create [] = []
 create (h:t) = (take h(repeat (0 :: Int))) ++ (create t)
 
+-- | Function drawForest calls a function for drawing trees for every tree in a forest.
 drawForest :: Show a => [Tree] -> [a] -> [String]
 drawForest forest state =
 	map f forest
 		where f = drawTree2 state
 
+-- | Function drawTree is a auxiliary function for drawing trees.
 drawTree :: Show a => Tree -> [a] -> String
 drawTree tree state = unlines (draw tree state)
+
+-- | Function drawTree2 is a auxiliary function for drawing trees.
 drawTree2 state tree = drawTree tree state
 
 -- | Function draw prints a tree. In the output the names of nodes are switched with its color.
