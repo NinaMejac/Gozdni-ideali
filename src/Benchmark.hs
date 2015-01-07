@@ -15,8 +15,8 @@ doIt f n = do
 	f
 	doIt f (n-1)
 
-simpleForest :: Forest
-simpleForest = [Tree 0 [Tree 1 []], Tree 2 [Tree 3 [], Tree 4 []]]
+forest :: Forest
+forest = [Tree 0 [Tree 1 []], Tree 2 [Tree 3 [], Tree 4 []]]
 
 -- | Function simpleForestIdeals generates all ideals of a forest with Simple module
 simpleForestIdeals :: [Tree] -> IO ()
@@ -26,9 +26,6 @@ simpleForestIdeals forest = do
 		state = [coloring]
 		allStates = loop_forest drawIdeal forest state
 	putStrLn $ unlines $ printIdeal forest allStates
-
-advancedForest :: Forest
-advancedForest = [Tree 0 [Tree 1 []], Tree 2 [Tree 3 [], Tree 4 []]]
 
 -- | Function advancedForestIdeals generates all ideals of a forest with Advanced module
 advancedForestIdeals :: Forest -> IO ()
@@ -45,8 +42,8 @@ main = defaultMain [
   ]
 
 -- | Functions stopWatchSimple and stopWatchAdvanced make measurements based on Simple and Advanced module
-stopWatchSimple = stopwatchResult (simpleForestIdeals simpleForest) 100
-stopWatchAdvanced = stopwatchResult (advancedForestIdeals advancedForest) 100
+stopWatchSimple = stopwatchResult (simpleForestIdeals forest) 100
+stopWatchAdvanced = stopwatchResult (advancedForestIdeals forest) 100
 
 -- | Function simpleBenchmark generates all ideales using Simple module.
 simpleBenchmark :: [Tree] -> [String]		
