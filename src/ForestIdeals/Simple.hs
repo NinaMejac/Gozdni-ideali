@@ -47,13 +47,14 @@ draw (Tree x ts0) state =
 
 	shift first other = zipWith (++) (first : repeat other)
 	
--- funkcija vrne barvo node-a
+-- | Function get returns a color of the node in the last coloring of a forest.
 get :: Int -> [[a]] -> a
 get node allStates =
     let state = last allStates in
 		state !! node
 		
--- funkcija posodbi barvo node-a na color
+-- | Function update creates a new coloring of a forest.
+-- | The color of a node in the last coloring is changed to new color.
 update :: Int -> a -> [[a]] -> [[a]]
 update node color allStates =
 	let state = last allStates in
