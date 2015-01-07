@@ -1,3 +1,4 @@
+-- | With module ForestIdeals.Advanced we can generate all ideals of a given forest
 module ForestIdeals.Advanced (loop_forest_ref, printIdealAdvanced) where
 
 import Data.STRef
