@@ -1,4 +1,4 @@
-module Main (simpleForestIdeals, advancedForestIdeals) where
+module Examples where
 
 import ForestIdeals.Tree
 import ForestIdeals.Advanced

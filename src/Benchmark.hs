@@ -1,4 +1,4 @@
-module Benchmark (stopwatchResult) where
+module Benchmark where
 
 import ForestIdeals.Tree
 import ForestIdeals.Advanced
