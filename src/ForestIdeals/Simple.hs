@@ -1,21 +1,22 @@
+-- | With module ForestIdeals.Simple we can generate all ideals of a given forest
 module ForestIdeals.Simple (createLength, create, loop_forest, drawIdeal, printIdeal) where
 
 import ForestIdeals.Tree
 
--- drevesu priredi seznam, katerega elementi so vizlišča drevesa
+-- | Function flatten generates a list of nodes of a given tree
 flatten :: Tree -> [Int]
 flatten t = squish t []
   where squish (Tree x ts) xs = x:Prelude.foldr squish xs ts
   
--- createLenght poisce dolzino drevesa
+-- | Function createLength generates a list of nodes of a forest flatten in a list
 createLength :: [Tree] -> [Int]
 createLength [] = []
 createLength (f:fx) = let
 	treeLength = length (flatten f)
 	in [treeLength] ++ createLength fx
 	
--- create kreira seznam dolzine gozda, kjer so vsa vozlisca bele barve
--- i-ti element seznama predstavlja i-to vozlisce (rootLabel = i-to vozlisce)
+-- | Function create generates the first coloring of a forest. In a coloring list the ith element represents the ith node of a forest.
+-- | In the first coloring are all the nodes white (0).
 create :: [Int] -> [Int]
 create [] = []
 create (h:t) = (take h(repeat (0 :: Int))) ++ (create t)
