@@ -1,11 +1,11 @@
 -- | With module ForestIdeals.Advanced we can generate all ideals of a given forest
 module ForestIdeals.Advanced (loop_forest_ref, printIdealAdvanced) where
 
--- | Module Advanced generates all ideals of a forest. During computation all of them are in a list. List is stored by reference.
-
 import Data.STRef
 import Control.Monad.ST
 import ForestIdeals.Tree
+
+-- | Module Advanced generates all ideals of a forest. During computation all of them are in a list. List is stored by reference.
 
 -- | New data type MyRef, which is compound of STRef value and pure value.
 data MyRef s a

@@ -1,9 +1,9 @@
 -- | With module ForestIdeals.Advanced we can generate all ideals of a given forest
 module ForestIdeals.Simple (createLength, create, loop_forest, drawIdeal, printIdeal) where
 
--- | Module Simple generates all ideals of a forest by collecting them in one list
-
 import ForestIdeals.Tree
+
+-- | Module Simple generates all ideals of a forest by collecting them in one list
 
 -- | Function flatten generates a list of nodes of a given tree
 flatten :: Tree -> [Int]
