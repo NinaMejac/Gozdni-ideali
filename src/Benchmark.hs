@@ -8,7 +8,7 @@ import Data.Time
 import Criterion.Main
 import Control.Monad.Trans
 
--- do f n-times
+-- | Function doIt repeats function f n times
 doIt f 0 = return ()
 doIt f n = do
 	f
