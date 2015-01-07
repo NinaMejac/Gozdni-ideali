@@ -19,10 +19,6 @@ parseString :: Parser (Tree Char)
 parseString = do
 	n <- noneOf "[]"
 	((parseSubforest n) <|> (parseNode n))
-	
-repairTree :: Num a => [Tree t] -> a -> Tree a
-repairTree [Tree a []] stevec = Tree stevec []
-repairTree [Tree a forest] stevec = Tree stevec [repairTree forest (stevec+1)]
 
 prepareTree :: IO ()
 prepareTree = do
