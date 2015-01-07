@@ -60,21 +60,21 @@ update node color allStates =
 	let state = last allStates in
 		allStates ++ [take node state ++ [color] ++ drop (node + 1) state]
 
+-- | Function drawIdeal is a function that returns argument itself.
 drawIdeal :: t -> t		
 drawIdeal allStates =
 	allStates
 
--- loop_forest se sprehodi skozi gozd
--- ce je gozd prazen vrne stanje
--- sicer pa poskusi prebarvati preostanek gozda
+-- | Function loop_forest walks through the forest. If that forest is empty then it returns current state.
+-- | In all other cases the function tries to color the rest of the forest.
 loop_forest :: (Num a, Eq a) => ([[a]] -> [[a]]) -> Forest -> [[a]] -> [[a]]
 loop_forest k forest state = case forest of
 	[] -> k state
 	tree : forest1 -> loop_tree (loop_forest k forest1) tree state
 
--- loop_tree preveri, kaksna je barva prvega naslednjega vozlisca
--- ce je belo, ga pobarva in nadaljuje z iskanjem nadaljnih resitev
--- ce je crno, nadaljuje iskanje na podrevesu in ga nato prebarva v belo
+-- | Function loop_tree checks the color of a root node.
+-- | If a color of a node is white (0), the function colors it and continues on subforest.
+-- | If a color of a node is black (1), the function continues on subforest and then it colors the node to white (0).
 loop_tree :: (Num a, Eq a) => ([[a]] -> [[a]]) -> Tree -> [[a]] -> [[a]]
 loop_tree k (Tree rootLabel subforest) state = 
 	if get rootLabel state == 0 then
