@@ -18,6 +18,7 @@ doIt f n = do
 simpleForest :: Forest
 simpleForest = [Tree 0 [Tree 1 []], Tree 2 [Tree 3 [], Tree 4 []]]
 
+-- | Function simpleForestIdeals generates all ideals of a forest with Simple module
 simpleForestIdeals :: [Tree] -> IO ()
 simpleForestIdeals forest = do
 	let
@@ -29,21 +30,25 @@ simpleForestIdeals forest = do
 advancedForest :: Forest
 advancedForest = [Tree 0 [Tree 1 []], Tree 2 [Tree 3 [], Tree 4 []]]
 
+-- | Function advancedForestIdeals generates all ideals of a forest with Advanced module
 advancedForestIdeals :: Forest -> IO ()
 advancedForestIdeals forest = do
 	let
 		allStates = loop_forest_ref forest
 	putStrLn $ unlines $ printIdeal forest allStates
-	
+
+-- | Main generates space and time measurements.	
 main = defaultMain [
   bgroup "ideals" [ bench "brez reference"  $ whnf simpleBenchmark simpleForest
                   , bench "z referenco"  $ whnf advancedBenchmark advancedForest
                   ]
   ]
 
+-- | Functions stopWatchSimple and stopWatchAdvanced make measurements based on Simple and Advanced module
 stopWatchSimple = stopwatchResult (simpleForestIdeals simpleForest) 100
 stopWatchAdvanced = stopwatchResult (advancedForestIdeals advancedForest) 100
 
+-- | Function simpleBenchmark generates all ideales using Simple module.
 simpleBenchmark :: [Tree] -> [String]		
 simpleBenchmark forest = do
 	let
@@ -52,10 +57,11 @@ simpleBenchmark forest = do
 		allStates = loop_forest drawIdeal forest state
 	printIdeal forest allStates
 
+-- | Function advancedBenchmark generates all ideales using Advanced module.
 advancedBenchmark :: [Tree] -> [String]		
 advancedBenchmark forest = printIdealAdvanced forest (loop_forest_ref forest)
 
--- funkcija za izvajanje meritev
+-- | Function stopwatch generates measurements.
 stopwatch :: MonadIO m => m a -> m NominalDiffTime
 stopwatch computation = do
 	start <- liftIO $ getCurrentTime
@@ -63,5 +69,6 @@ stopwatch computation = do
 	end <- liftIO $ getCurrentTime
 	return (end `diffUTCTime` start)
 
+-- | Function stopwatchResult generates measurements.
 stopwatchResult f n =
 	stopwatch (doIt f n)
