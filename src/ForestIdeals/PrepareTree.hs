@@ -1,4 +1,4 @@
-module PrepareTree (prepareTree) where
+module ForestIdeals.PrepareTree (prepareTree) where
 
 import Text.ParserCombinators.Parsec
 

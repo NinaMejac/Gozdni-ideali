@@ -1,8 +1,6 @@
-module Simple (simpleForestIdealsA, Tree (..), Forest, simpleBenchmark) where
+module ForestIdeals.Simple (createLength, create, loop_forest, drawIdeal, printIdeal) where
 
--- kreiramo strukturo
-data Tree = Tree Int Forest deriving (Show, Read)
-type Forest = [Tree]
+import ForestIdeals.Tree
 
 -- drevesu priredi seznam, katerega elementi so vizlišča drevesa
 flatten :: Tree -> [Int]
@@ -79,34 +77,8 @@ loop_tree k (Tree rootLabel subforest) state =
 		k $ update rootLabel 0 $ loop_forest k subforest state
 		
 -- pomozna funkcija za izris
-izrisiIdeal :: Show a => [Tree] -> [[a]] -> [String]
-izrisiIdeal forest (x:[]) =
+printIdeal :: Show a => [Tree] -> [[a]] -> [String]
+printIdeal forest (x:[]) =
 	drawForest forest x
-izrisiIdeal forest (x:xs) =
-	(drawForest forest x) ++ ["\n\n\n---\n\n\n---"] ++ (izrisiIdeal forest xs)	
-
-simpleForestIdealsA :: [Tree] -> IO ()
-simpleForestIdealsA forest = do
-	let
-		coloring = create (createLength forest)
-		state = [coloring]
-		allStates = loop_forest drawIdeal forest state
-	putStrLn $ unlines $ izrisiIdeal forest allStates
-
-simpleForestIdeals :: IO ()
-simpleForestIdeals = do
-	gozd <- getLine
-	let
-		forest = read gozd :: Forest
-		coloring = create (createLength forest)
-		state = [coloring]
-		allStates = loop_forest drawIdeal forest state
-	putStrLn $ unlines $ izrisiIdeal forest allStates
-
-simpleBenchmark :: [Tree] -> [String]		
-simpleBenchmark forest = do
-	let
-		coloring = create (createLength forest)
-		state = [coloring]
-		allStates = loop_forest drawIdeal forest state
-	izrisiIdeal forest allStates
+printIdeal forest (x:xs) =
+	(drawForest forest x) ++ ["\n\n\n---\n\n\n---"] ++ (printIdeal forest xs)	

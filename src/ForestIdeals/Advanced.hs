@@ -1,12 +1,8 @@
-module Advanced (advancedForestIdealsA, Tree (..), Forest, advancedBenchmark) where
+module ForestIdeals.Advanced (loop_forest_ref, printIdealAdvanced) where
 
 import Data.STRef
 import Control.Monad.ST
-
--- kreiramo strukturo
-data Tree = Tree Int Forest deriving (Show, Read)
-type Forest = [Tree]
-
+import ForestIdeals.Tree
 
 -- definicija novega tipa za shranjevanje reference
 data MyRef s a
@@ -87,11 +83,11 @@ loop_forest_ref forest =
 	runST $ loopForestRef forest
 
 -- pomozna funkcija za izris
-izrisiIdeal :: Show a => [Tree] -> [[a]] -> [String]
-izrisiIdeal forest (x:[]) =
+printIdealAdvanced :: Show a => [Tree] -> [[a]] -> [String]
+printIdealAdvanced forest (x:[]) =
 	drawForest forest x
-izrisiIdeal forest (x:xs) =
-	(drawForest forest x) ++ ["\n\n\n---\n\n\n---"] ++ (izrisiIdeal forest xs)	
+printIdealAdvanced forest (x:xs) =
+	(drawForest forest x) ++ ["\n\n\n---\n\n\n---"] ++ (printIdealAdvanced forest xs)
 
 drawForest :: Show a => [Tree] -> [a] -> [String]
 drawForest forest state =
@@ -113,20 +109,3 @@ draw (Tree x ts0) state =
 		"|" : shift "+- " "|  " (draw t state) ++ drawSubTrees ts
 
 	shift first other = zipWith (++) (first : repeat other)
-
-advancedForestIdealsA :: Forest -> IO ()
-advancedForestIdealsA forest = do
-	let
-		allStates = loop_forest_ref forest
-	putStrLn $ unlines $ izrisiIdeal forest allStates
-	
-advancedForestIdeals :: IO ()		
-advancedForestIdeals = do
-	gozd <- getLine
-	let
-		forest = read gozd :: Forest
-		allStates = loop_forest_ref forest
-	putStrLn $ unlines $ izrisiIdeal forest allStates
-
-advancedBenchmark :: [Tree] -> [String]		
-advancedBenchmark forest = izrisiIdeal forest (loop_forest_ref forest)
