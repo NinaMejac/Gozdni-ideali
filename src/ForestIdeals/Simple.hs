@@ -30,6 +30,7 @@ drawTree :: Show a => Tree -> [a] -> String
 drawTree tree state = unlines (draw tree state)
 drawTree2 state tree = drawTree tree state
 
+-- | Function draw prints a tree. In the output the names of nodes are switched with its color.
 draw :: Show a => Tree -> [a] -> [[Char]]		
 draw (Tree x ts0) state = 
   let vozlisce = (state !! x) in
