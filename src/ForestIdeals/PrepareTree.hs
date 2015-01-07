@@ -1,7 +1,10 @@
 module ForestIdeals.PrepareTree (prepareTree) where
 
-import ForestIdeals.Tree
 import Text.ParserCombinators.Parsec
+
+-- | tree structure
+data Tree a = Tree a (Forest a ) deriving (Show, Read)
+type Forest a = [Tree a]
 
 -- | parse node with subforest
 parseSubforest n = do
@@ -22,7 +25,8 @@ parseString = do
 
 -- | prepare tree
 --
--- >>> prepareTree "2[34]"
+-- >>> prepareTree
+-- "2[34]"
 -- Tree 2 [Tree 3 [],Tree 4 []]
 prepareTree :: IO ()
 prepareTree = do
