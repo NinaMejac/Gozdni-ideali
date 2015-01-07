@@ -4,8 +4,8 @@ import ForestIdeals.Tree
 import ForestIdeals.Advanced
 import ForestIdeals.Simple
 
-simpleForest :: Forest
-simpleForest = [Tree 0 [Tree 1 []], Tree 2 [Tree 3 [], Tree 4 []]]
+forest :: Forest
+forest = [Tree 0 [Tree 1 []], Tree 2 [Tree 3 [], Tree 4 []]]
 
 simpleForestIdeals :: [Tree] -> IO ()
 simpleForestIdeals forest = do
@@ -14,9 +14,6 @@ simpleForestIdeals forest = do
 		state = [coloring]
 		allStates = loop_forest drawIdeal forest state
 	putStrLn $ unlines $ printIdeal forest allStates
-
-advancedForest :: Forest
-advancedForest = [Tree 0 [Tree 1 []], Tree 2 [Tree 3 [], Tree 4 []]]
 
 advancedForestIdeals :: Forest -> IO ()
 advancedForestIdeals forest = do
