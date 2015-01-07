@@ -23,7 +23,7 @@ parseString = do
 	n <- noneOf "[]"
 	((parseSubforest n) <|> (parseNode n))
 
--- | prepare tree
+-- | PrepareTree is an auxiliary module that converts input to tree structure.
 --
 -- >>> prepareTree
 -- "2[34]"
