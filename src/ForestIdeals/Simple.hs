@@ -32,6 +32,7 @@ drawTree :: Show a => Tree -> [a] -> String
 drawTree tree state = unlines (draw tree state)
 
 -- | Function drawTree2 is a auxiliary function for drawing trees.
+drawTree2 :: Show a => [a] -> Tree -> String
 drawTree2 state tree = drawTree tree state
 
 -- | Function draw prints a tree. In the output the names of nodes are switched with its color.
@@ -83,7 +84,7 @@ loop_tree k (Tree rootLabel subforest) state =
 	else
 		k $ update rootLabel 0 $ loop_forest k subforest state
 		
--- pomozna funkcija za izris
+-- | Function printIdeal is a auxiliary function for drawing trees.
 printIdeal :: Show a => [Tree] -> [[a]] -> [String]
 printIdeal forest (x:[]) =
 	drawForest forest x
