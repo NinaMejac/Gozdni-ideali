@@ -1,4 +1,4 @@
--- | With module ForestIdeals.Simple we can generate all ideals of a given forest
+-- | Module Simple generates all ideals of a forest by collecting them in one list
 module ForestIdeals.Simple (createLength, create, loop_forest, drawIdeal, printIdeal) where
 
 import ForestIdeals.Tree
