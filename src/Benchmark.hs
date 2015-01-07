@@ -36,8 +36,8 @@ advancedForestIdeals forest = do
 
 -- | Main generates space and time measurements.	
 main = defaultMain [
-  bgroup "ideals" [ bench "brez reference"  $ whnf simpleBenchmark simpleForest
-                  , bench "z referenco"  $ whnf advancedBenchmark advancedForest
+  bgroup "ideals" [ bench "brez reference"  $ whnf simpleBenchmark forest
+                  , bench "z referenco"  $ whnf advancedBenchmark forest
                   ]
   ]
 
